@@ -7,6 +7,7 @@ from selenium import webdriver
 from agents import basic_analysis
 from functions.utils import calculate_tokens
 from functions.mongo_operations import insert_news, get_latest_object
+from news_details_scrapper import get_news_details
 
 
 print("STARTED")
@@ -33,11 +34,12 @@ for item in news[::-1]:
             "time": span_tags[0].get_attribute("title"),
             "source": span_tags[1].text,
             "will_it_directly_impact_any_stock": "",
-            "name_of_directly_impacted_companies": [],
+            "directly_mentioned_companies_in_news": [],
             "how_will_it_impact": "",
             "reason": "",
         }
     
+
     if not latest_obj or datetime.strptime(news_obj["time"], "%I:%M %p, %d %b %Y") > datetime.strptime(latest_obj["time"], "%I:%M %p, %d %b %Y"):
         print("NEW NEWS")
         print(news_obj)
@@ -55,6 +57,8 @@ for item in news[::-1]:
 
         news_list.append({**news_obj})
         total_tokens += num_tokens
+    else:
+        print("################################ OLD NEWS ########################################")
         
 if len(news_list):
     results = basic_analysis(news_list) or []
@@ -63,14 +67,15 @@ if len(news_list):
     total_tokens = 0
     news_list = []
 
-print("###########################33 OUTPUTS ################################################")
-print(llm_results)
-print(type(llm_results))
-print("################################## STORE TO MONGO ###############################################")
-
 for news_obj in llm_results:
     print(news_obj)
     print(type(news_obj))
+    detailed_news, do_we_have_details = get_news_details(anchor_tag.get_attribute("href"), span_tags[1].text, anchor_tag.text)
+    
+    if do_we_have_details and len(news_obj['directly_mentioned_companies_in_news']) and news_obj['will_it_directly_impact_any_stock'] == "true" and news_obj['how_will_it_impact'] != "Natural":
+        # Generate tweet and share it on X.
+        pass
+
     insert_news({**news_obj})
     
 if len(llm_results):
@@ -79,7 +84,7 @@ if len(llm_results):
     
 
     
-# driver.quit()
+driver.quit()
 
 # 1. https://pulse.zerodha.com/
 # 2. https://www.moneycontrol.com/news/business/companies/

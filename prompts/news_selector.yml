@@ -11,10 +11,10 @@ template: >-
         "description": " ",
         "time": "",
         "source": "",
-        "will_it_directly_impact_any_stock": "",
-        "name_of_directly_impacted_companies": [],
-        "how_will_it_impact": "",
-        "reason": ""
+        "will_it_directly_impact_any_stock": "" -> boolean: true/false,
+        "directly_mentioned_companies_in_news": [] -> name of companies which are directly mentioned in the news and listed in indian stockmarket.,
+        "how_will_it_impact": "" -> categorical: Very Positive, Positive, Nautural, Negative, Very Negative.
+        "reason": "" -> reason for the impact.
     }}
 
     Output instructions:

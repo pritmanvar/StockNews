@@ -1,3 +1,5 @@
+bs4==0.0.2
+html2text==2024.2.26
 pymongo[srv]==4.11
 selenium==4.28.1
 tiktoken==0.8.0
@@ -5,3 +7,4 @@ python-dotenv==1.0.1
 langchain==0.3.17
 langchain_core==0.3.33
 langchain_groq==0.2.4
+langchain_community==0.3.16

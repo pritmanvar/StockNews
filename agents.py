@@ -41,13 +41,16 @@ def basic_analysis(news_list):
             abstracted_string = response.content[start_index : end_index + 1]
             print("ABSTRACTED STRING")
             print(abstracted_string)
-            print()
-            results = json.loads(abstracted_string)
-            print("PARSER RESPONSE")
-            print(results)
-            print(type(results))
             
-            return results
+            try:
+                results = json.loads(abstracted_string)
+                print("PARSER RESPONSE")
+                print(results)
+                print(type(results))
+                
+                return results
+            except Exception as e:
+                print(e)
 
         time.sleep(30)
         
