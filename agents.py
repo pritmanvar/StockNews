@@ -1,22 +1,32 @@
+import os
 import json
 import time
+import logging
 
-from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 
-from schemas import NewsList
-
 load_dotenv()
 
-llm = ChatGroq(
+# Configure logging
+logging.basicConfig(filename='agents.log', level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+
+analysis_llm = ChatGroq(
     model="deepseek-r1-distill-llama-70b",
-    temperature=0.6,
+    temperature=0.8,
     max_tokens=130000,
     timeout=None,
     max_retries=2,
-    # other params...
+    api_key=os.getenv("GROQ_ANALYSIS_API_KEY"),
+)
+post_content_llm = ChatGroq(
+    model="llama-3.1-8b-instant",
+    temperature=0.8,
+    max_tokens=250,
+    timeout=None,
+    max_retries=2,
+    api_key=os.getenv("THREADS_POST_GENERATION_API_KEY"),
 )
 
 def basic_analysis(news_list):
@@ -25,34 +35,41 @@ def basic_analysis(news_list):
                 input_variables=["list_of_news_object"]
             )
 
-
     for _ in range(5):
-        response = llm.invoke(prompt.invoke({"list_of_news_object": news_list}))
-        
-        print(response.content)
-        # Extract the substring between the first '[' and the last ']'
-        start_index = response.content.find('[')
-        end_index = response.content.rfind(']')
-        
-        print(start_index, " START INDEX ###################################")
-        print(end_index, " LAST INDEX ###################################")
-        abstracted_string = ""
-        if start_index != -1 and end_index != -1 and start_index < end_index:
-            abstracted_string = response.content[start_index : end_index + 1]
-            print("ABSTRACTED STRING")
-            print(abstracted_string)
-            
-            try:
-                results = json.loads(abstracted_string)
-                print("PARSER RESPONSE")
-                print(results)
-                print(type(results))
-                
-                return results
-            except Exception as e:
-                print(e)
+        try:
+            response = analysis_llm.invoke(prompt.invoke({"list_of_news_object": news_list}))
 
-        time.sleep(30)
+            # Extract the substring between the first '[' and the last ']'
+            start_index = response.content.find('[')
+            end_index = response.content.rfind(']')
+            
+
+            abstracted_string = ""
+            if start_index != -1 and end_index != -1 and start_index < end_index:
+                abstracted_string = response.content[start_index : end_index + 1]
+                
+                try:
+                    results = json.loads(abstracted_string)
+                    return results
+                except Exception as e:
+                    logging.error("Error parsing JSON", exc_info=True)
+
+            time.sleep(30)
+        except Exception as e:
+            logging.error("Error in LLM invocation", exc_info=True)
         
     raise ValueError("LLM response is not in correct format.")
-    
+
+def get_text_post_content(details, reference):
+    try:
+        prompt = PromptTemplate.from_file(
+                    template_file="prompts/post_generator.yml",
+                    input_variables=["NEWS_CONTENT", "REFERENCE_URL"]
+                )
+        
+        user_query = prompt.invoke({"NEWS_CONTENT": details, "REFERENCE_URL": reference})
+        response = post_content_llm.invoke(user_query)
+        return response.content, True
+    except Exception as e:
+        logging.error("Error generating post content", exc_info=True)
+        return "", False
