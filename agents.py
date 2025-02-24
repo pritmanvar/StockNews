@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 analysis_llm = ChatGroq(
-    model="deepseek-r1-distill-llama-70b",
+    model="llama-3.1-8b-instant",
     temperature=0.8,
     max_tokens=130000,
     timeout=None,
