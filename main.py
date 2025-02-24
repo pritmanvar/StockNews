@@ -34,14 +34,24 @@ def extract_news_details(item):
 
 def is_new_news(news_obj):
     latest_obj = get_latest_object()
-    return not latest_obj or datetime.strptime(news_obj["time"], "%I:%M %p, %d %b %Y") > datetime.strptime(latest_obj["time"], "%I:%M %p, %d %b %Y")
+    
+    
+    print(news_obj['time'])
+    print(latest_obj['time'])
+    print(datetime.strptime(news_obj["time"], "%I:%M %p, %d %b %Y"))
+    print(datetime.strptime(latest_obj["time"],"%Y-%m-%dT%H:%M:%SZ"))
+        
+    if not latest_obj or datetime.strptime(news_obj["time"], "%I:%M %p, %d %b %Y") > datetime.strptime(latest_obj["time"],  "%Y-%m-%dT%H:%M:%SZ"):
+        print("NEW NEWS")
+        return True
+    else:
+        return False
 
 def process_news_list(news_list):
     try:
         results = basic_analysis(news_list) or []
         
         for news_obj in results:
-            print(news_obj)
             detailed_news, do_we_have_details = get_news_details(news_obj['url'], news_obj['source'], news_obj['title'])
             
             if do_we_have_details and len(news_obj['directly_mentioned_companies_in_news']) and news_obj['will_it_directly_impact_any_stock'] == "true" and news_obj['how_will_it_impact'] != "Natural":
@@ -61,6 +71,7 @@ def process_news_list(news_list):
             insert_news({**news_obj})
     except Exception as e:
         logging.error("Exception occurred", exc_info=True)
+        print(e)
     time.sleep(30)
 
 def run_job():
@@ -84,6 +95,7 @@ def run_job():
     has_new_news = False
     for indx, item in enumerate(news[::-1]):
         news_obj = extract_news_details(item)
+        print(news_obj)
         
         try:
             if is_new_news(news_obj):
@@ -99,6 +111,7 @@ def run_job():
                 has_new_news = True
         except Exception as e:
             logging.error("Exception occurred", exc_info=True)
+            print(e)
             
     is_job_running = False
     driver.quit()

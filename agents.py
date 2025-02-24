@@ -52,10 +52,12 @@ def basic_analysis(news_list):
                     results = json.loads(abstracted_string)
                     return results
                 except Exception as e:
+                    print(e)
                     logging.error("Error parsing JSON", exc_info=True)
 
             time.sleep(30)
         except Exception as e:
+            print(e)
             logging.error("Error in LLM invocation", exc_info=True)
         
     raise ValueError("LLM response is not in correct format.")
@@ -71,5 +73,6 @@ def get_text_post_content(details, reference):
         response = post_content_llm.invoke(user_query)
         return response.content, True
     except Exception as e:
+        print(e)
         logging.error("Error generating post content", exc_info=True)
         return "", False
