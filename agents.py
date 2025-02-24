@@ -35,11 +35,17 @@ def basic_analysis(news_list):
     for _ in range(5):
         try:
             response = analysis_llm.invoke(prompt.invoke({"list_of_news_object": news_list}))
+            print("################ BASIC ANALYSIS AGENT RESPONSE ################")
+            print(response)
+            print("################ BASIC ANALYSIS END AGENT RESPONSE ################")
 
             # Extract the substring between the first '[' and the last ']'
             start_index = response.content.find('[')
             end_index = response.content.rfind(']')
             
+
+            print("start index:",start_index)
+            print("end index:",end_index)
 
             abstracted_string = ""
             if start_index != -1 and end_index != -1 and start_index < end_index:
@@ -68,6 +74,8 @@ def get_text_post_content(details, reference):
         
         user_query = prompt.invoke({"NEWS_CONTENT": details, "REFERENCE_URL": reference})
         response = post_content_llm.invoke(user_query)
+
+        print("POST CONTENT RESPONSE:", response)
         return response.content, True
     except Exception as e:
         print(e)
