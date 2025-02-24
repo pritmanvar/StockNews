@@ -102,7 +102,7 @@ def run_job():
     has_new_news = False
     for indx, item in enumerate(news[::-1]):
         news_obj = extract_news_details(item)
-        print(news_obj)
+        # print(news_obj)
         
         try:
             if is_new_news(news_obj):
@@ -114,6 +114,7 @@ def run_job():
                     news_list = []
 
                 news_list.append({**news_obj})
+                print(news_list[-1])
                 total_tokens += num_tokens
                 has_new_news = True
         except Exception as e:
