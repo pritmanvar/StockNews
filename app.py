@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from main import run_job, is_job_running
+from main import run_job
 
 app = FastAPI()
 

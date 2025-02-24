@@ -1,12 +1,7 @@
 import traceback
-import logging
 
 from langchain_community.document_loaders import AsyncHtmlLoader
 from langchain_community.document_transformers import Html2TextTransformer
-
-# Configure logging
-logging.basicConfig(filename='news_details_scrapper.log', level=logging.ERROR, 
-                    format='%(asctime)s %(levelname)s %(message)s')
 
 urls = ["https://www.zeebiz.com/personal-finance/news-power-of-compounding-interest-mutual-fund-sip-retirement-corpus-planning-calculator-how-soon-you-can-build-inr-rs-15000000-with-monthly-investments-of-rs-1500-2500-3500-market-linked-return-345207"]
 
@@ -46,7 +41,6 @@ def get_news_details(url, platform, title):
             last_index = page_content.lower().find("Don’t forget to share this story".lower())
             page_content = page_content[:last_index]
         else:
-            logging.error(f"Platform details not found for: {platform}")
             print(platform)
             print("##################################################### DETAILS NOT FOUND ####################################################################")
 
@@ -61,7 +55,6 @@ def get_news_details(url, platform, title):
         else:
             return "", False
     except Exception as e:
-        logging.error("Exception occurred", exc_info=True)
         traceback.print_exc()
         print(e)
         return "", False

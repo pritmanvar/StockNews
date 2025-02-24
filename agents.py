@@ -1,16 +1,13 @@
 import os
 import json
 import time
-import logging
+import traceback
 
 from langchain_core.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 
 load_dotenv()
-
-# Configure logging
-logging.basicConfig(filename='agents.log', level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 analysis_llm = ChatGroq(
     model="deepseek-r1-distill-llama-70b",
@@ -53,13 +50,13 @@ def basic_analysis(news_list):
                     return results
                 except Exception as e:
                     print(e)
-                    logging.error("Error parsing JSON", exc_info=True)
+                    traceback.print_exc()
 
             time.sleep(30)
         except Exception as e:
             print(e)
-            logging.error("Error in LLM invocation", exc_info=True)
-        
+            traceback.print_exc()
+
     raise ValueError("LLM response is not in correct format.")
 
 def get_text_post_content(details, reference):
@@ -74,5 +71,5 @@ def get_text_post_content(details, reference):
         return response.content, True
     except Exception as e:
         print(e)
-        logging.error("Error generating post content", exc_info=True)
+        traceback.print_exc()
         return "", False

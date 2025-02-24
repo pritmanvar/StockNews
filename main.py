@@ -1,6 +1,6 @@
 import time
-import logging
 from datetime import datetime
+import traceback
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -10,9 +10,6 @@ from functions.utils import calculate_tokens
 from functions.threads_api import post_thread_with_text
 from functions.mongo_operations import insert_news, get_latest_object
 from news_details_scrapper import get_news_details
-
-# Configure logging
-logging.basicConfig(filename='main.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 is_job_running = False
 
@@ -38,10 +35,20 @@ def is_new_news(news_obj):
     
     print(news_obj['time'])
     print(latest_obj['time'])
-    print(datetime.strptime(news_obj["time"], "%I:%M %p, %d %b %Y"))
-    print(datetime.strptime(latest_obj["time"],"%Y-%m-%dT%H:%M:%SZ"))
-        
-    if not latest_obj or datetime.strptime(news_obj["time"], "%I:%M %p, %d %b %Y") > datetime.strptime(latest_obj["time"],  "%Y-%m-%dT%H:%M:%SZ"):
+    
+    news_obj_date = None
+    latest_obj_date = None
+    try:
+        news_obj_date = datetime.strptime(news_obj["time"], "%I:%M %p, %d %b %Y")
+    except Exception:
+        news_obj_date = datetime.strptime(news_obj["time"], "%Y-%m-%dT%H:%M:%SZ")
+    
+    try:
+        latest_obj_date = datetime.strptime(latest_obj["time"], "%I:%M %p, %d %b %Y")
+    except Exception:
+        latest_obj_date = datetime.strptime(latest_obj["time"], "%Y-%m-%dT%H:%M:%SZ")
+
+    if not latest_obj or news_obj_date > latest_obj_date:
         print("NEW NEWS")
         return True
     else:
@@ -70,7 +77,7 @@ def process_news_list(news_list):
                 
             insert_news({**news_obj})
     except Exception as e:
-        logging.error("Exception occurred", exc_info=True)
+        traceback.print_exc()
         print(e)
     time.sleep(30)
 
@@ -110,7 +117,7 @@ def run_job():
                 total_tokens += num_tokens
                 has_new_news = True
         except Exception as e:
-            logging.error("Exception occurred", exc_info=True)
+            traceback.print_exc()
             print(e)
             
     is_job_running = False
