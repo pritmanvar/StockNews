@@ -103,7 +103,7 @@ def get_text_post_content(details, reference):
         )
 
         user_query = prompt.invoke(
-            {"NEWS_CONTENT": details, "REFERENCE_URL": reference}
+            {"NEWS_CONTENT": details, "REFERENCE_URL": reference, "CHAR_LENGTH": 480- len(reference)}
         )
         response = post_content_llm.invoke(user_query)
 
