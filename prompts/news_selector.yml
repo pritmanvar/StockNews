@@ -1,8 +1,8 @@
 input_variables:
-    - list_of_news_object
+    - news_object
     
 template: >-
-    You are an expert news analyzer. Your task is to analyze news to determine how it will impact the Indian stock market with the help of a title and a small description of the news if given. You will be given a list of news objects in which some fields will be empty. You have to fill in those fields and return the same list.
+    You are an expert news analyzer. Your task is to analyze news to determine how it will impact the Indian stock market with the help of a title and a small description of the news if given. You will be given a news object in which some fields will be empty. You have to fill in those fields and return the same filled object.
 
     Formate of news object:
     {{
@@ -18,7 +18,10 @@ template: >-
     }}
 
     Output instructions:
-    - You have to strictly return list of news objects after filling empty fields.
+    - You have to strictly return news object after filling empty fields.
+    - You have to fill the fields in the same news object and return it.
+    - Don't give any additional information apart from filled news object.
+    - You must always return valid JSON fenced by a markdown code block. Do not return any additional text.
 
-    List of NEWS objects to analyze:
-    {list_of_news_object}
+    NEWS objects to analyze:
+    {news_object}

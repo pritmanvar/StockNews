@@ -5,7 +5,7 @@ from langchain_community.document_transformers import Html2TextTransformer
 
 urls = ["https://www.zeebiz.com/personal-finance/news-power-of-compounding-interest-mutual-fund-sip-retirement-corpus-planning-calculator-how-soon-you-can-build-inr-rs-15000000-with-monthly-investments-of-rs-1500-2500-3500-market-linked-return-345207"]
 
-def get_news_details(url, platform, title):
+def get_news_details(url, platform, title, description):
     try:
         loader = AsyncHtmlLoader([url])
         docs = loader.load()
@@ -47,7 +47,7 @@ def get_news_details(url, platform, title):
         print(docs_transformed[0].metadata)
         detailed_news = detailed_news.format(
             title=title,
-            summary=docs_transformed[0].metadata["description"],
+            summary=description,
             description=page_content)
         
         if page_content:
