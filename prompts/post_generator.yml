@@ -8,7 +8,7 @@ template: >-
 
     1. **Summary:** Provide a brief yet informative summary of the news, highlighting key details and numbers.  
     2. **Impacted Stocks:** Identify Indian stocks that may be affected by this news but don't directly mention this in post content by saing impacted stocks.
-    3. **Source URL:** Include the provided Source link at the end.  
+    3. **Source URL:** You must Include the provided Source URL in the post.  
     4. **Character Limit:** Ensure the entire post does not exceed {CHAR_LENGTH} characters.
     5. **Format:** You can use any format to present the news but above guidelines must be followed.
     6. **HashTags:** Add tranding hashtags in post content.
