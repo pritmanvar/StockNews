@@ -11,7 +11,7 @@ template: >-
     3. **Character Limit:** Ensure the entire post does not exceed {CHAR_LENGTH} characters.
     4. **Format:** You can use any format to present the news but above guidelines must be followed.
     5. **HashTags:** Add few tranding hashtags under 20 chars in the post content.
-    6. **Source URL:** You must Include the full provided Source URL in the post.  
+    6. **Source URL:** You must Include the full provided Source URL with given route in the post.  
 
     Output instructions:
     - You have to strictly return post content only not any other information or your thoughts.
