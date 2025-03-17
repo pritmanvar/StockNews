@@ -32,9 +32,8 @@ analysis_llm = [
     ),
 ]
 post_content_llm = ChatGroq(
-    model="llama-3.2-3b-preview",
+    model="deepseek-r1-distill-qwen-32b",
     temperature=0.8,
-    max_tokens=250,
     timeout=None,
     max_retries=2,
     api_key=os.getenv("THREADS_POST_GENERATION_API_KEY"),
@@ -98,17 +97,30 @@ def basic_analysis(news):
 def get_text_post_content(details, reference):
     try:
         prompt = PromptTemplate.from_file(
-            template_file="prompts/post_generator.yml",
-            input_variables=["NEWS_CONTENT", "REFERENCE_URL"],
+            template_file="prompts/post_generator_without_source.yml",
+            input_variables=["NEWS_CONTENT", "CHAR_LENGTH"],
         )
 
         user_query = prompt.invoke(
-            {"NEWS_CONTENT": details, "REFERENCE_URL": reference, "CHAR_LENGTH": 480- len(reference)}
+            {"NEWS_CONTENT": details, "CHAR_LENGTH": 490- len(reference)}
         )
         response = post_content_llm.invoke(user_query)
 
         print("POST CONTENT RESPONSE:", response)
-        return response.content, True
+        
+        content = response.content.replace('"', '')
+
+        if "</think>" in content:
+            content = content.split("</think>")[1]
+
+        start_indx = content.find("#")
+        content = f"""{content[:start_indx]}
+        {reference}
+
+        {content[start_indx:]}
+        """
+        
+        return content, True
     except Exception as e:
         print(e)
         traceback.print_exc()
