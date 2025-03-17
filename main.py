@@ -29,9 +29,7 @@ def extract_news_details(item):
         "reason": "",
     }
 
-def is_new_news(news_obj):
-    latest_obj = get_latest_object()
-    
+def is_new_news(news_obj, latest_obj=None):    
     if not latest_obj:
         print("NEW NEWS")
         return True
@@ -109,12 +107,13 @@ def run_job():
     news_list = []
 
     has_new_news = False
-    for item in news[::-1]:
+    latest_obj = get_latest_object()
+    for item in news:
         news_obj = extract_news_details(item)
         # print(news_obj)
         
         try:
-            if is_new_news(news_obj):
+            if is_new_news(news_obj, latest_obj):
                 process_news({**news_obj})
                 news_list = []
 
