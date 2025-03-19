@@ -107,8 +107,9 @@ def run_job():
     news_list = []
 
     has_new_news = False
-    latest_obj = get_latest_object()
-    for item in news:
+    
+    for item in news[::-1]:
+        latest_obj = get_latest_object()
         news_obj = extract_news_details(item)
         # print(news_obj)
         
