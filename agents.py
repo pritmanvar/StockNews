@@ -32,7 +32,7 @@ analysis_llm = [
     ),
 ]
 post_content_llm = ChatGroq(
-    model="deepseek-r1-distill-qwen-32b",
+    model="qwen-qwq-32b",
     temperature=0.8,
     timeout=None,
     max_retries=2,
