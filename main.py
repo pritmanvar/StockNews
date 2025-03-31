@@ -10,7 +10,9 @@ from functions.utils import calculate_tokens
 from functions.threads_api import post_thread_with_text
 from functions.mongo_operations import insert_news, get_latest_object
 from news_details_scrapper import get_news_details
+import chromedriver_autoinstaller
 
+chromedriver_autoinstaller.install()
 is_job_running = False
 
 def extract_news_details(item):
