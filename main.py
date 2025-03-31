@@ -100,14 +100,14 @@ def run_job():
     is_job_running = True
     print("STARTED")
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")  # Run in headless mode
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
+    options.add_argument("--headless")  # Render requires headless mode
+    options.add_argument("--no-sandbox")  # Required for running as root
+    options.add_argument("--disable-dev-shm-usage")  # Avoid shared memory issues
+    options.binary_location = "/usr/bin/chromium-browser"  # Use pre-installed Chromium
 
-    # Automatically downloads and uses the correct ChromeDriver version
-    service = Service(ChromeDriverManager().install())
+    service = Service("/usr/bin/chromedriver")  # Use the correct Chromedriver path
     driver = webdriver.Chrome(service=service, options=options)
+
 
     print("Driver initialized")
     driver.get("https://pulse.zerodha.com/")
