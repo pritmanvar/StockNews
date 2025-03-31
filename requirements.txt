@@ -13,4 +13,3 @@ fastapi===0.115.8
 gunicorn===23.0.0
 uvicorn===0.34.0
 pydantic==2.9.2
-chromedriver-autoinstaller==0.6.4

@@ -3,16 +3,15 @@ from datetime import datetime
 import traceback
 
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 from agents import basic_analysis, get_text_post_content
 from functions.utils import calculate_tokens
 from functions.threads_api import post_thread_with_text
 from functions.mongo_operations import insert_news, get_latest_object
 from news_details_scrapper import get_news_details
-import chromedriver_autoinstaller
 
-chromedriver_autoinstaller.install()
 is_job_running = False
 
 def extract_news_details(item):
@@ -100,9 +99,16 @@ def run_job():
     
     is_job_running = True
     print("STARTED")
-    options = Options()
-    options.add_argument("--headless")  
-    driver = webdriver.Chrome(options=options) 
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")  # Run in headless mode
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-gpu")
+
+    # Automatically downloads and uses the correct ChromeDriver version
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=options)
+
     print("Driver initialized")
     driver.get("https://pulse.zerodha.com/")
     driver.maximize_window()
