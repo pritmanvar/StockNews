@@ -12,6 +12,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+ChatGroq.model_rebuild()
+
 analysis_llm_indx = 0
 analysis_llm = [
     ChatGroq(
