@@ -4,7 +4,6 @@ import traceback
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from agents import basic_analysis, get_text_post_content
 from functions.utils import calculate_tokens
@@ -35,8 +34,8 @@ def is_new_news(news_obj, latest_obj=None):
         print("NEW NEWS")
         return True
     
-    print(news_obj['time'], "CURRENT OBJ") 
-    print(latest_obj['time'], "LAST OBJ")
+    print(news_obj['time']) 
+    print(latest_obj['time'])
     
     news_obj_date = None
     latest_obj_date = None
@@ -83,9 +82,8 @@ def process_news(news):
                 news_obj['post_content'] = post_content
                 print("POST CREATED SUCCESSFULLY")
             time.sleep(60)
-        
-        if news_obj['time']:
-            insert_news({**news_obj})
+            
+        insert_news({**news_obj})
     except Exception as e:
         traceback.print_exc()
         print(e)
@@ -100,20 +98,8 @@ def run_job():
     is_job_running = True
     print("STARTED")
     options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--no-sandbox")
-
-    # Use the environment variable if set (from render.yaml) or default to 'selenium'
-    selenium_host = os.environ.get("SELENIUM_HOST", "selenium")
-    remote_url = f"http://{selenium_host}:4444/wd/hub"
-
-    # Connect to remote WebDriver
-    driver = webdriver.Remote(
-        command_executor=remote_url,
-        desired_capabilities=DesiredCapabilities.CHROME.copy(),
-        options=options
-    )
+    options.add_argument("--headless")  
+    driver = webdriver.Chrome(options=options) 
     print("Driver initialized")
     driver.get("https://pulse.zerodha.com/")
     driver.maximize_window()

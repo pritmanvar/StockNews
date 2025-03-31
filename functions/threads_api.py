@@ -1,6 +1,5 @@
 import os
 import requests
-
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -17,4 +16,4 @@ def post_thread_with_text(text):
     
     return post_response['id']
 
-# post_thread_with_text("Hello, Learning thread.")
+# post_thread_with_text("Hello, Threads! Testing without ngrok.")

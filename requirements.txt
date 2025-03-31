@@ -1,7 +1,7 @@
 bs4==0.0.2
 html2text==2024.2.26
 pymongo[srv]==4.11
-selenium==4.30.0
+selenium==4.28.1
 webdriver-manager==4.0.2
 tiktoken==0.8.0
 python-dotenv==1.0.1
