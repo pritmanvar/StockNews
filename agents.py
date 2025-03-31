@@ -8,7 +8,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from pydantic import BaseModel, Field
 
 from langchain_groq import ChatGroq
-from langchain_core.cache import BaseCache
+from langchain_core.caches import BaseCache
 from dotenv import load_dotenv
 
 load_dotenv()
