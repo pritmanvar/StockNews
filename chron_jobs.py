@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 
 def call_api():
-    url = "https://stocknews-y52z.onrender.com/run_job"  # Replace with your API endpoint
+    url = "https://stocknews-p0gz.onrender.com/run_job"  # Replace with your API endpoint
     print("RUNNING JOB")
     response = requests.get(url)
     try:
