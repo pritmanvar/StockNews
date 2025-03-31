@@ -3,8 +3,8 @@ from datetime import datetime
 import traceback
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from agents import basic_analysis, get_text_post_content
 from functions.utils import calculate_tokens
@@ -99,16 +99,21 @@ def run_job():
     
     is_job_running = True
     print("STARTED")
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless")  # Render requires headless mode
-    options.add_argument("--no-sandbox")  # Required for running as root
-    options.add_argument("--disable-dev-shm-usage")  # Avoid shared memory issues
-    options.binary_location = "/usr/bin/chromium-browser"  # Use pre-installed Chromium
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--no-sandbox")
 
-    service = Service("/usr/bin/chromedriver")  # Use the correct Chromedriver path
-    driver = webdriver.Chrome(service=service, options=options)
+    # Use the environment variable if set (from render.yaml) or default to 'selenium'
+    selenium_host = os.environ.get("SELENIUM_HOST", "selenium")
+    remote_url = f"http://{selenium_host}:4444/wd/hub"
 
-
+    # Connect to remote WebDriver
+    driver = webdriver.Remote(
+        command_executor=remote_url,
+        desired_capabilities=DesiredCapabilities.CHROME.copy(),
+        options=options
+    )
     print("Driver initialized")
     driver.get("https://pulse.zerodha.com/")
     driver.maximize_window()
