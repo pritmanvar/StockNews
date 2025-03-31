@@ -34,8 +34,8 @@ def is_new_news(news_obj, latest_obj=None):
         print("NEW NEWS")
         return True
     
-    print(news_obj['time']) 
-    print(latest_obj['time'])
+    print(news_obj['time'], "CURRENT OBJ") 
+    print(latest_obj['time'], "LAST OBJ")
     
     news_obj_date = None
     latest_obj_date = None
@@ -82,8 +82,9 @@ def process_news(news):
                 news_obj['post_content'] = post_content
                 print("POST CREATED SUCCESSFULLY")
             time.sleep(60)
-            
-        insert_news({**news_obj})
+        
+        if news_obj['time']:
+            insert_news({**news_obj})
     except Exception as e:
         traceback.print_exc()
         print(e)
