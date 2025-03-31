@@ -4,16 +4,12 @@ import time
 import traceback
 
 from langchain_core.prompts import PromptTemplate
-from langchain_core.output_parsers import JsonOutputParser
 from pydantic import BaseModel, Field
 
 from langchain_groq import ChatGroq
-from langchain_core.caches import BaseCache
 from dotenv import load_dotenv
 
 load_dotenv()
-
-ChatGroq.model_rebuild()
 
 analysis_llm_indx = 0
 analysis_llm = [
