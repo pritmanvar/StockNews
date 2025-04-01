@@ -115,10 +115,9 @@ def get_text_post_content(details, reference):
 
         start_indx = content.find("#")
         content = f"""{content[:start_indx]}
-        {reference}
+{reference}
 
-        {content[start_indx:]}
-        """
+{content[start_indx:]}"""
         
         return content, True
     except Exception as e:

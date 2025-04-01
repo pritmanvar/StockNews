@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.options import Options
 
 from agents import basic_analysis, get_text_post_content
 from functions.utils import calculate_tokens
-from functions.threads_api import post_thread_with_text
+from functions.threads_api import post_thread_with_text_api
 from functions.mongo_operations import insert_news, get_latest_object
 from news_details_scrapper import get_news_details
 
@@ -76,7 +76,7 @@ def process_news(news):
             print(post_content)
             
             if is_success:
-                post_id = post_thread_with_text(post_content)
+                post_id = post_thread_with_text_api(post_content)
                 
                 news_obj['post_id'] = post_id
                 news_obj['post_content'] = post_content
