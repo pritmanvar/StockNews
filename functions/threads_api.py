@@ -23,7 +23,7 @@ def post_thread_with_text(text):
 
 # post_thread_with_text("Hello, Threads! Testing without ngrok.")
 def post_thread_with_text_api(text):
-    url = f"https://stocknews-1.onrender.com/post_thread?text={'\\n'.join(text.splitlines())}"
+    url = "https://stocknews-1.onrender.com/post_thread?text="+"\\n".join(text.splitlines())
     headers = {
         "accept": "application/json"
     }
