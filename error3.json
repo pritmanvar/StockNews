@@ -1,0 +1,109 @@
+{
+    "type": "FailedExecutionRegistered",
+    "data": {
+        "type": "FailedExecutionRegistered",
+        "metadata": {
+            "executionId": "feb9bac7-cc46-4e2e-a09f-ec9e79b555ea",
+            "timestamp": 1743191009152.102,
+            "execNumber": 3,
+            "workspaceId": "Health_Care_Service_Analysis-323ea",
+            "workspace_source": "Health_Care_Service_Analysis-323ea",
+            "solutionId": "Healthcare_Utilization_and_Encounters",
+            "actionId": "Join-Append-10",
+            "datasetType": "Structured Data",
+            "user_id": "bab518cf-6eb4-4f51-a410-aa3485e2b552",
+            "account_id": "841162709598",
+            "account_name": "kyndryl5d6c9dd12062",
+            "account_structure": "Multi-Tenant",
+            "provision_account_type": "aws",
+            "max_resource_usage": {
+                "cpu_usage": {
+                    "/nix/store/8dzgagiwp6xi6hahsdgq6y4kb5v8kn4j-python3-3.11.8/bin/python": 22,
+                    "/nix/store/304h76q92sny6mjwbpg9hjb5yr4fhjr4-openjdk-headless-8u362-ga-jre/lib/openjdk/jre/bin/java": 0,
+                    "/nix/store/8dzgagiwp6xi6hahsdgq6y4kb5v8kn4j-python3-3.11.8/bin/python3.11": 0
+                },
+                "memory_usage": {
+                    "/nix/store/8dzgagiwp6xi6hahsdgq6y4kb5v8kn4j-python3-3.11.8/bin/python": 654094336,
+                    "/nix/store/304h76q92sny6mjwbpg9hjb5yr4fhjr4-openjdk-headless-8u362-ga-jre/lib/openjdk/jre/bin/java": 1363197952,
+                    "/nix/store/8dzgagiwp6xi6hahsdgq6y4kb5v8kn4j-python3-3.11.8/bin/python3.11": 330293248
+                }
+            }
+        },
+        "spec": {
+            "error": "Execution error",
+            "exception": "SparkRuntimeException",
+            "message": [
+                "[LOCATION_ALREADY_EXISTS] Cannot name the managed table as `spark_catalog`.`solution_data`.`50081ac555d543358d8aa3c24d6e077b`, as its associated location 's3a://warehouse-696258290967/solution_data.db/50081ac555d543358d8aa3c24d6e077b' already exists. Please pick a different table name, or remove the existing location first."
+            ],
+            "stacktrace": [
+                [
+                    "  File \"/home/ubix/app/exec_legacy.py\", line 384, in work",
+                    "    raise inst"
+                ],
+                [
+                    "  File \"/home/ubix/app/exec_legacy.py\", line 350, in work",
+                    "    persisted = await asyncio.to_thread(",
+                    "                ^^^^^^^^^^^^^^^^^^^^^^^^"
+                ],
+                [
+                    "  File \"/nix/store/8dzgagiwp6xi6hahsdgq6y4kb5v8kn4j-python3-3.11.8/lib/python3.11/asyncio/threads.py\", line 25, in to_thread",
+                    "    return await loop.run_in_executor(None, func_call)",
+                    "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+                ],
+                [
+                    "  File \"/nix/store/8dzgagiwp6xi6hahsdgq6y4kb5v8kn4j-python3-3.11.8/lib/python3.11/concurrent/futures/thread.py\", line 58, in run",
+                    "    result = self.fn(*self.args, **self.kwargs)",
+                    "             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+                ],
+                [
+                    "  File \"/nix/store/0v7lrngdh86ir4nm2pdrbnjfjlhlsqwf-python3-3.11.8-env/lib/python3.11/site-packages/ExecWrapper/data_manager.py\", line 199, in persist",
+                    "    return self.persist_serial(outputSpecs, outputs, cal_profile, profile_metadata)",
+                    "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+                ],
+                [
+                    "  File \"/nix/store/0v7lrngdh86ir4nm2pdrbnjfjlhlsqwf-python3-3.11.8-env/lib/python3.11/site-packages/ExecWrapper/data_manager.py\", line 140, in persist_serial",
+                    "    output = op[\"call\"](*args)(output)",
+                    "             ^^^^^^^^^^^^^^^^^^^^^^^^^"
+                ],
+                [
+                    "  File \"/nix/store/0v7lrngdh86ir4nm2pdrbnjfjlhlsqwf-python3-3.11.8-env/lib/python3.11/site-packages/logdecorator/decorator.py\", line 19, in wrapper",
+                    "    return self.execute(fn, *args, **kwargs)",
+                    "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+                ],
+                [
+                    "  File \"/nix/store/0v7lrngdh86ir4nm2pdrbnjfjlhlsqwf-python3-3.11.8-env/lib/python3.11/site-packages/tools/log_time.py\", line 126, in execute",
+                    "    raise e"
+                ],
+                [
+                    "  File \"/nix/store/0v7lrngdh86ir4nm2pdrbnjfjlhlsqwf-python3-3.11.8-env/lib/python3.11/site-packages/tools/log_time.py\", line 123, in execute",
+                    "    result = super().execute(fn, *args, **kwargs)",
+                    "             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+                ],
+                [
+                    "  File \"/nix/store/0v7lrngdh86ir4nm2pdrbnjfjlhlsqwf-python3-3.11.8-env/lib/python3.11/site-packages/logdecorator/decorator.py\", line 13, in execute",
+                    "    return fn(*args, **kwargs)",
+                    "           ^^^^^^^^^^^^^^^^^^^"
+                ],
+                [
+                    "  File \"/nix/store/0v7lrngdh86ir4nm2pdrbnjfjlhlsqwf-python3-3.11.8-env/lib/python3.11/site-packages/ExecWrapper/operators.py\", line 2058, in func",
+                    "    df.write.saveAsTable(f\"`{hiveDB}`.`{tableName}`\", mode=mode)"
+                ],
+                [
+                    "  File \"/nix/store/0v7lrngdh86ir4nm2pdrbnjfjlhlsqwf-python3-3.11.8-env/lib/python3.11/site-packages/pyspark/sql/readwriter.py\", line 1586, in saveAsTable",
+                    "    self._jwrite.saveAsTable(name)"
+                ],
+                [
+                    "  File \"/nix/store/0v7lrngdh86ir4nm2pdrbnjfjlhlsqwf-python3-3.11.8-env/lib/python3.11/site-packages/py4j/java_gateway.py\", line 1322, in __call__",
+                    "    return_value = get_return_value(",
+                    "                   ^^^^^^^^^^^^^^^^^"
+                ],
+                [
+                    "  File \"/nix/store/0v7lrngdh86ir4nm2pdrbnjfjlhlsqwf-python3-3.11.8-env/lib/python3.11/site-packages/pyspark/errors/exceptions/captured.py\", line 185, in deco",
+                    "    raise converted from None"
+                ]
+            ]
+        }
+    },
+    "revision": 256,
+    "subscriptionId": "workspace:Health_Care_Service_Analysis-323ea"
+}

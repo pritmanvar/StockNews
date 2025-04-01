@@ -1,0 +1,106 @@
+{
+    "type": "FailedExecutionRegistered",
+    "metadata": {
+        "executionId": "9ffbb515-800a-4e0b-9a11-089a62175549",
+        "timestamp": 1743156140585.777,
+        "execNumber": 1,
+        "workspaceId": "Health_Care_Service_Analysis-323ea",
+        "workspace_source": "Health_Care_Service_Analysis-323ea",
+        "solutionId": "Healthcare_Utilization_and_Encounters",
+        "actionId": "Join-Append-10",
+        "datasetType": "Structured Data",
+        "user_id": "bab518cf-6eb4-4f51-a410-aa3485e2b552",
+        "account_id": "841162709598",
+        "account_name": "kyndryl5d6c9dd12062",
+        "account_structure": "Multi-Tenant",
+        "provision_account_type": "aws",
+        "max_resource_usage": {
+            "cpu_usage": {
+                "/nix/store/8dzgagiwp6xi6hahsdgq6y4kb5v8kn4j-python3-3.11.8/bin/python": 0,
+                "/nix/store/304h76q92sny6mjwbpg9hjb5yr4fhjr4-openjdk-headless-8u362-ga-jre/lib/openjdk/jre/bin/java": 0
+            },
+            "memory_usage": {
+                "/nix/store/8dzgagiwp6xi6hahsdgq6y4kb5v8kn4j-python3-3.11.8/bin/python": 749232128,
+                "/nix/store/304h76q92sny6mjwbpg9hjb5yr4fhjr4-openjdk-headless-8u362-ga-jre/lib/openjdk/jre/bin/java": 1798291456
+            }
+        }
+    },
+    "spec": {
+        "error": "Execution error",
+        "exception": "AnalysisException",
+        "message": [
+            "[UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `encounterCalculate-Column-7:calculate_column_output_data` cannot be resolved. Did you mean one of the following? [`encounter_r`, `spark_catalog`.`solution_data`.`3b49adf5dbe74006ad690a22fa31f007`.`date`, `spark_catalog`.`solution_data`.`3b49adf5dbe74006ad690a22fa31f007`.`id`, `spark_catalog`.`solution_data`.`0fde1f14d6714f858aaf501b65241586`.`start`, `spark_catalog`.`solution_data`.`0fde1f14d6714f858aaf501b65241586`.`stop`].;",
+            "'Project [series_uid#6764, imaging_count#6773, encounter#6698, bodysite_code#6765L, reasondescription#6704, system#6699, sop_description#6771, modality_description#6770, id#6761, sop_code#6769, description#6701, code#6700L, procedure_count#6705, reasoncode#6703L, stop#6696, date#6760, patient#6697, base_cost#6702, bodysite_description#6766, start#6695, procedure_code#6772L, 'encounterCalculate-Column-7:calculate_column_output_data, modality_code#6767, instance_uid#6768]",
+            "+- Project [description#6701, system#6699, code#6700L, procedure_count#6705, base_cost#6702, reasoncode#6703L, stop#6696, start#6695, encounter#6698, patient#6697, reasondescription#6704, encounter_r#6912, bodysite_description#6766, date#6760, id#6761, imaging_count#6773, instance_uid#6768, modality_code#6767, modality_description#6770, procedure_code#6772L, series_uid#6764, sop_code#6769, sop_description#6771, bodysite_code#6765L]",
+            "   +- Join LeftOuter, (patient#6697 = patient_r#6911)",
+            "      :- Project [description#6701, system#6699, code#6700L, procedure_count#6705, base_cost#6702, reasoncode#6703L, stop#6696, start#6695, encounter#6698, patient#6697, reasondescription#6704]",
+            "      :  +- Project [start#6695, stop#6696, patient#6697, encounter#6698, system#6699, code#6700L, description#6701, base_cost#6702, reasoncode#6703L, reasondescription#6704, procedure_count#6705]",
+            "      :     +- SubqueryAlias spark_catalog.solution_data.0fde1f14d6714f858aaf501b65241586",
+            "      :        +- Relation spark_catalog.solution_data.0fde1f14d6714f858aaf501b65241586[start#6695,stop#6696,patient#6697,encounter#6698,system#6699,code#6700L,description#6701,base_cost#6702,reasoncode#6703L,reasondescription#6704,procedure_count#6705] parquet",
+            "      +- Project [patient#6762 AS patient_r#6911, encounter#6763 AS encounter_r#6912, bodysite_description#6766, date#6760, id#6761, imaging_count#6773, instance_uid#6768, modality_code#6767, modality_description#6770, procedure_code#6772L, series_uid#6764, sop_code#6769, sop_description#6771, bodysite_code#6765L]",
+            "         +- Project [sop_description#6771, modality_description#6770, imaging_count#6773, bodysite_description#6766, series_uid#6764, procedure_code#6772L, encounter#6763, date#6760, patient#6762, id#6761, modality_code#6767, sop_code#6769, bodysite_code#6765L, instance_uid#6768]",
+            "            +- Project [date#6760, id#6761, patient#6762, encounter#6763, series_uid#6764, bodysite_code#6765L, bodysite_description#6766, modality_code#6767, instance_uid#6768, sop_code#6769, modality_description#6770, sop_description#6771, procedure_code#6772L, imaging_count#6773]",
+            "               +- SubqueryAlias spark_catalog.solution_data.3b49adf5dbe74006ad690a22fa31f007",
+            "                  +- Relation spark_catalog.solution_data.3b49adf5dbe74006ad690a22fa31f007[date#6760,id#6761,patient#6762,encounter#6763,series_uid#6764,bodysite_code#6765L,bodysite_description#6766,modality_code#6767,instance_uid#6768,sop_code#6769,modality_description#6770,sop_description#6771,procedure_code#6772L,imaging_count#6773] parquet"
+        ],
+        "stacktrace": [
+            [
+                "  File \"/home/ubix/app/exec_legacy.py\", line 315, in work",
+                "    raise inst"
+            ],
+            [
+                "  File \"/home/ubix/app/exec_legacy.py\", line 294, in work",
+                "    functionOutputs = await asyncio.to_thread(",
+                "                      ^^^^^^^^^^^^^^^^^^^^^^^^"
+            ],
+            [
+                "  File \"/nix/store/8dzgagiwp6xi6hahsdgq6y4kb5v8kn4j-python3-3.11.8/lib/python3.11/asyncio/threads.py\", line 25, in to_thread",
+                "    return await loop.run_in_executor(None, func_call)",
+                "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            ],
+            [
+                "  File \"/nix/store/8dzgagiwp6xi6hahsdgq6y4kb5v8kn4j-python3-3.11.8/lib/python3.11/concurrent/futures/thread.py\", line 58, in run",
+                "    result = self.fn(*self.args, **self.kwargs)",
+                "             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            ],
+            [
+                "  File \"/nix/store/iqyn8y1q4hjr8jix0czhi6dwqys5czrv-ubix-base-env/lib/python3.11/site-packages/Models/NewFunctions/DataPreparation/join_and_append.py\", line 201, in run",
+                "    raise inst"
+            ],
+            [
+                "  File \"/nix/store/iqyn8y1q4hjr8jix0czhi6dwqys5czrv-ubix-base-env/lib/python3.11/site-packages/Models/NewFunctions/DataPreparation/join_and_append.py\", line 178, in run",
+                "    model_output = join_append_datasets_model.transform(inputs[\"spark\"],",
+                "                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            ],
+            [
+                "  File \"/nix/store/iqyn8y1q4hjr8jix0czhi6dwqys5czrv-ubix-base-env/lib/python3.11/site-packages/Models/NewFunctions/DataPreparation/join_and_append.py\", line 52, in transform",
+                "    model_output = self.join_append_tables_by_json_object(self.json_object, data,spark)",
+                "                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            ],
+            [
+                "  File \"/nix/store/iqyn8y1q4hjr8jix0czhi6dwqys5czrv-ubix-base-env/lib/python3.11/site-packages/Models/NewFunctions/DataPreparation/join_and_append.py\", line 79, in join_append_tables_by_json_object",
+                "    tables_dict[item[\"name\"]] = self.join_tables(",
+                "                                ^^^^^^^^^^^^^^^^^"
+            ],
+            [
+                "  File \"/nix/store/iqyn8y1q4hjr8jix0czhi6dwqys5czrv-ubix-base-env/lib/python3.11/site-packages/Models/NewFunctions/DataPreparation/join_and_append.py\", line 116, in join_tables",
+                "    left_selected_data = left_table.select(list(set(join_on_left_columns + left_columns)))",
+                "                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            ],
+            [
+                "  File \"/nix/store/876rx19anakq3c2pfrkckznw4si7q4hf-python3-3.11.8-env/lib/python3.11/site-packages/pyspark/sql/dataframe.py\", line 3227, in select",
+                "    jdf = self._jdf.select(self._jcols(*cols))",
+                "          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+            ],
+            [
+                "  File \"/nix/store/876rx19anakq3c2pfrkckznw4si7q4hf-python3-3.11.8-env/lib/python3.11/site-packages/py4j/java_gateway.py\", line 1322, in __call__",
+                "    return_value = get_return_value(",
+                "                   ^^^^^^^^^^^^^^^^^"
+            ],
+            [
+                "  File \"/nix/store/876rx19anakq3c2pfrkckznw4si7q4hf-python3-3.11.8-env/lib/python3.11/site-packages/pyspark/errors/exceptions/captured.py\", line 185, in deco",
+                "    raise converted from None"
+            ]
+        ]
+    }
+}

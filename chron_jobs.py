@@ -1,6 +1,8 @@
 import requests
 import time
 
+from main import run_job
+
 def call_api():
     url = "http://localhost:8000/run_job"  # Replace with your API endpoint
     print("RUNNING JOB")
@@ -15,5 +17,5 @@ def call_api():
         
 if __name__ == "__main__":
     while True:
-        call_api()
-        time.sleep(60*10)  # Sleep for 1 second before making the next call
+        run_job()
+        time.sleep(1800)
