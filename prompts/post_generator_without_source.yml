@@ -12,7 +12,7 @@ template: >-
     5. **HashTags:** Add only one related tranding hashtags under 10 chars at the last.
 
     Output instructions:
-    - You have to strictly return post content only not any other information or your thoughts.
+    - You have to strictly return post content only not any other information or your thoughts. Don't include Link in the post content. 
 
     Here is the news:  
     {NEWS_CONTENT}  
