@@ -15,7 +15,7 @@ load_dotenv()
 analysis_llm_indx = 0
 analysis_llm = [
     ChatGroq(
-        model="llama-3.2-3b-preview",
+        model="llama-3.1-8b-instant	",
         temperature=0.8,
         max_tokens=800,
         timeout=None,
@@ -23,7 +23,7 @@ analysis_llm = [
         api_key=os.getenv("GROQ_ANALYSIS_API_KEY"),
     ),
     ChatGroq(
-        model="llama-3.2-3b-preview",
+        model="llama-3.1-8b-instant	",
         temperature=0.8,
         max_tokens=800,
         timeout=None,
