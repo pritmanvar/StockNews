@@ -1,15 +1,20 @@
+import os
 import time
-from datetime import datetime
 import traceback
+from datetime import datetime
+from dotenv import load_dotenv
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-from agents import basic_analysis, get_text_post_content
-from functions.utils import calculate_tokens
-from functions.threads_api import post_thread_with_text_api
+from functions.utils import call_basic_analysis_api, get_text_post_content_api
+from functions.threads_api import post_thread_with_text
 from functions.mongo_operations import insert_news, get_latest_object
 from news_details_scrapper import get_news_details
+
+load_dotenv()
+
+urls = [os.getenv("BASIC_ANALYSIS_URL"), os.getenv("BASIC_ANALYSIS_URL_1")]
 
 is_job_running = False
 
@@ -55,9 +60,12 @@ def is_new_news(news_obj, latest_obj=None):
     else:
         return False
 
-def process_news(news):
+def process_news(news, url):
     try:
-        news_obj = basic_analysis(news)
+        news_obj = call_basic_analysis_api(news, url)
+        
+        if "error" in news_obj:
+            raise RuntimeError(news_obj['error'])
         
         detailed_news, do_we_have_details = get_news_details(news_obj['url'], news_obj['source'], news_obj['title'], news_obj['description'])
         
@@ -69,14 +77,14 @@ def process_news(news):
         print(news_obj['how_will_it_impact'])
         print("#################### DETAILED NEWS ####################")
         
-        if do_we_have_details and len(news_obj['directly_mentioned_companies_in_news']) and news_obj['will_it_directly_impact_any_stock'].lower() == "true" and news_obj['how_will_it_impact'] != "Natural":
-            post_content, is_success = get_text_post_content(detailed_news, news_obj['url'])
+        if do_we_have_details and len(news_obj['directly_mentioned_companies_in_news']) and str(news_obj['will_it_directly_impact_any_stock']).lower() == "true" and news_obj['how_will_it_impact'] != "Natural":
+            post_content, is_success = get_text_post_content_api(detailed_news, news_obj['url'])
             
             print("#################### RESPONSE ####################")
             print(post_content)
             
             if is_success:
-                post_id = post_thread_with_text_api(post_content)
+                post_id = post_thread_with_text(post_content)
                 
                 news_obj['post_id'] = post_id
                 news_obj['post_content'] = post_content
@@ -108,6 +116,8 @@ def run_job():
 
     has_new_news = False
     
+    basic_analysis_url_indx = 0
+    
     for item in news[::-1]:
         latest_obj = get_latest_object()
         news_obj = extract_news_details(item)
@@ -115,8 +125,9 @@ def run_job():
         
         try:
             if is_new_news(news_obj, latest_obj):
-                process_news({**news_obj})
+                process_news({**news_obj}, urls[basic_analysis_url_indx])
                 news_list = []
+                basic_analysis_url_indx = (basic_analysis_url_indx + 1) % len(urls)
 
                 news_list.append({**news_obj})
                 print(news_list[-1])

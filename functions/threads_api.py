@@ -16,6 +16,9 @@ def post_thread_with_text(text):
 
     post_url = f"https://graph.threads.net/v1.0/{os.getenv('TH_USER_ID')}/threads_publish"
     post_params = {"creation_id": container_response["id"], "access_token": os.getenv("TH_ACCESS_TOKEN")}
+    
+    print("Final request to share post")
+    print(post_url, post_params)
     post_response = requests.post(post_url, params=post_params, verify=certifi.where()).json()
     print("post creation", post_response)
     
@@ -31,6 +34,6 @@ def post_thread_with_text_api(text):
     response = requests.post(url, headers=headers, data="")
 
     print(response.status_code)
-    print(response)  # Assuming the response is in JSON format
+    print(response.json())  # Assuming the response is in JSON format
     
-    return response
+    return response['id']
